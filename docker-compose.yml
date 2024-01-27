@@ -1,0 +1,24 @@
+version: "3"
+services:
+  # frontend:
+  #   image: 
+  #   ports:
+  #       - "80:80"
+  #   depends_on:
+  #     - db
+  web:
+    build: ./django
+    ports:
+        - "8080:80"
+    depends_on:
+      - db
+  db:
+    container_name: byutest
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: byutest
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'

@@ -3,7 +3,8 @@ FROM python:3.10
 WORKDIR /
 COPY ./requirements.txt /
 RUN apt-get update && \
-    apt-get install -y default-mysql-client
+    apt-get install -y default-mysql-client && \
+    pip install uwsgi==2.0.20
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 COPY . /

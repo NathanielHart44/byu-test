@@ -1,9 +1,7 @@
-from byutest.settings import (EMAIL_HOST_USER)
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-from byutest.views.helpers import (update_last_login, gen_jwt_tokens_for_user)
 from django.utils import timezone
 from rest_framework import status
 from django.db import transaction

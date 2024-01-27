@@ -8,5 +8,8 @@ drf-jwt~=1.19.2
 dj-rest-auth
 django-allauth
 mysqlclient
+opencv-python
 pandas
-uwsgi
+Pillow
+tensorflow
+tf-models-official

@@ -3,7 +3,6 @@ import { pxToRem, responsiveFontSizes } from '../utils/getFontValue';
 // ----------------------------------------------------------------------
 
 const FONT_PRIMARY = 'Public Sans, sans-serif'; // Google Font
-const FONT_SECONDARY = 'Metamorphous'; // Google Font
 // const FONT_SECONDARY = 'CircularStd, sans-serif'; // Local Font
 
 const typography = {
@@ -12,7 +11,7 @@ const typography = {
   fontWeightMedium: 600,
   fontWeightBold: 700,
   h1: {
-    fontFamily: FONT_SECONDARY,
+    fontFamily: FONT_PRIMARY,
     fontWeight: 700,
     lineHeight: 80 / 64,
     fontSize: pxToRem(40),
@@ -20,21 +19,21 @@ const typography = {
     ...responsiveFontSizes({ sm: 52, md: 58, lg: 64 }),
   },
   h2: {
-    fontFamily: FONT_SECONDARY,
+    fontFamily: FONT_PRIMARY,
     fontWeight: 700,
     lineHeight: 64 / 48,
     fontSize: pxToRem(32),
     ...responsiveFontSizes({ sm: 40, md: 44, lg: 48 }),
   },
   h3: {
-    fontFamily: FONT_SECONDARY,
+    fontFamily: FONT_PRIMARY,
     fontWeight: 700,
     lineHeight: 1.5,
     fontSize: pxToRem(24),
     ...responsiveFontSizes({ sm: 26, md: 30, lg: 32 }),
   },
   h4: {
-    fontFamily: FONT_SECONDARY,
+    fontFamily: FONT_PRIMARY,
     fontWeight: 700,
     lineHeight: 1.5,
     fontSize: pxToRem(20),

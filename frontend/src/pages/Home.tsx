@@ -43,21 +43,16 @@ export default function Home() {
     const { apiCall } = useApiCall();
 
 
-    const [testData, setTestData] = useState<LotData>();
+    const [testData, setTestData] = useState<LotData[]>();
     const [percentFilled, setPercentFilled] = useState<number>();
 
     useEffect(() => {
         apiCall('test_image_processing', 'GET', null, (data) => {
             console.log(data);
-            setTestData(data);
+            setTestData([data]);
             setPercentFilled(data.stats.occupiedSpaces / data.stats.totalSpaces);
         });
     }, []);
-
-    const parkingLots = [
-        { name: "Lot 1A - Staff", percentFilled: "53%", spotsAvailable: 20, color: "orange" },
-        { name: "Lot 1A", percentFilled: "100%", spotsAvailable: 0, color: "red" }
-      ];
 
       const getStatusColor = (color: string): string => {
         switch(color) {
@@ -200,29 +195,12 @@ export default function Home() {
                         </>
                     }
                     
-                    {(testData && percentFilled) ?
-                        <ListItem sx={{ bgcolor: 'black', color: 'white' }}>
-                            <ListItemIcon>
-                            </ListItemIcon>
-                            <Grid container spacing={2}>
-                                <Grid item xs={4}>
-                                    <Typography variant="subtitle1">Lot 1A ({percentFilled})</Typography>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                                    {percentFilled}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Typography variant="subtitle1">{testData.stats.totalSpaces - testData.stats.occupiedSpaces}</Typography>
-                                </Grid>
-                            </Grid>
-                        </ListItem> :
+                    {(testData && percentFilled) &&
                     <Stack width={'100%'} spacing={2}>
-                        {parkingLots.map((lot, index) => (
+                        {testData.map((lot, index) => (
                             <BYUAccordion
                                 key={index}
-                                title={lot.name}
+                                title={'Lot 1A'}
                                 icon={
                                     <Stack
                                         justifyContent={'center'}
@@ -236,7 +214,7 @@ export default function Home() {
                                     >
                                         <div
                                             style={{
-                                                backgroundColor: getStatusColor(lot.spotsAvailable >= 0.9 ? "red" : lot.spotsAvailable >= 0.75 ? "orange" : "green"),
+                                                backgroundColor: getStatusColor(lot.stats.totalSpaces - lot.stats.occupiedSpaces >= 0.9 ? "red" : lot.stats.totalSpaces - lot.stats.occupiedSpaces >= 0.75 ? "orange" : "green"),
                                                 borderRadius: '50%',
                                                 width: '10px',
                                                 height: '10px',
@@ -249,19 +227,19 @@ export default function Home() {
                                 table_body={
                                     <ListItem sx={{ bgcolor: 'black', color: 'white' }}>
                                         <ListItemIcon>
-                                        <FiberManualRecordIcon style={{ color: getStatusColor(lot.color) }} />
+                                        <FiberManualRecordIcon style={{ color: getStatusColor(lot.stats.totalSpaces - lot.stats.occupiedSpaces >= 0.9 ? "red" : lot.stats.totalSpaces - lot.stats.occupiedSpaces >= 0.75 ? "orange" : "green") }} />
                                         </ListItemIcon>
                                         <Grid container spacing={2}>
                                         <Grid item xs={4}>
-                                            <Typography variant="subtitle1">{lot.name}</Typography>
+                                            <Typography variant="subtitle1">Lot 1A</Typography>
                                         </Grid>
                                         <Grid item xs={4}>
                                             <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                                            {lot.percentFilled}
+                                                {lot.stats.occupiedSpaces / lot.stats.totalSpaces * 100}%
                                             </Typography>
                                         </Grid>
                                         <Grid item xs={4}>
-                                            <Typography variant="subtitle1">{lot.spotsAvailable}</Typography>
+                                            <Typography variant="subtitle1">{lot.stats.totalSpaces - lot.stats.occupiedSpaces}</Typography>
                                         </Grid>
                                         </Grid>
                                     </ListItem>

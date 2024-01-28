@@ -43,13 +43,13 @@ export default function Home() {
     const { apiCall } = useApiCall();
 
 
-    const [testData, setTestData] = useState<LotData[]>();
+    const [testData, setTestData] = useState<LotData>();
     const [percentFilled, setPercentFilled] = useState<number>();
 
     useEffect(() => {
         apiCall('test_image_processing', 'GET', null, (data) => {
             console.log(data);
-            setTestData([data]);
+            setTestData(data);
             setPercentFilled(data.stats.occupiedSpaces / data.stats.totalSpaces);
         });
     }, []);
@@ -129,8 +129,6 @@ export default function Home() {
         setValue(newValue);
     };
 
-    const iconContainerStyle = { minWidth: '15px' };
-
     const ripple = (
         keyframes`
         0% {
@@ -173,31 +171,9 @@ export default function Home() {
                     </ListItem>
                     <Divider component="li" />
                     
-                    {!testData && !percentFilled &&
-                        <>
-                            {/* Column headers */}
-                            <ListItem sx={{ bgcolor: 'black', color: 'white' }}>
-                            <ListItemIcon style={iconContainerStyle}> {/* Adjust icon container width as needed */}
-                                {/* Placeholder for icon column */}
-                            </ListItemIcon>
-                            <Grid container spacing={2}>
-                                <Grid item xs={4} sx={{ mr: -1 }}> {/* Adjust the negative margin as needed */}
-                                    <Typography variant="subtitle1" sx={{ ml: -3 }}>Lot Name</Typography>
-                                </Grid>
-                                <Grid item xs={4}>
-                                <Typography variant="subtitle1">% Filled</Typography>
-                                </Grid>
-                                <Grid item xs={4}>
-                                <Typography variant="subtitle1">Spots Left</Typography>
-                                </Grid>
-                            </Grid>
-                            </ListItem>
-                        </>
-                    }
-                    
                     {(testData && percentFilled) &&
                     <Stack width={'100%'} spacing={2}>
-                        {testData.map((lot, index) => (
+                        {[testData].map((lot, index) => (
                             <BYUAccordion
                                 key={index}
                                 title={'Lot 1A'}

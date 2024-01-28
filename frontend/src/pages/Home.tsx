@@ -20,7 +20,7 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import Grid from '@mui/material/Grid';
 import { useApiCall } from 'src/hooks/useApiCall';
 import BYUAccordion from 'src/components/BYUAccordion';
-import { Container, Stack, keyframes, useTheme } from '@mui/material';
+import { Container, Stack, keyframes } from '@mui/material';
 
 
 declare global {
@@ -178,40 +178,44 @@ export default function Home() {
                     </ListItem>
                     <Divider component="li" />
                     
-                    {/* Column headers */}
-                    <ListItem sx={{ bgcolor: 'black', color: 'white' }}>
-                    <ListItemIcon style={iconContainerStyle}> {/* Adjust icon container width as needed */}
-                        {/* Placeholder for icon column */}
-                    </ListItemIcon>
-                    <Grid container spacing={2}>
-                        <Grid item xs={4} sx={{ mr: -1 }}> {/* Adjust the negative margin as needed */}
-                            <Typography variant="subtitle1" sx={{ ml: -3 }}>Lot Name</Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                        <Typography variant="subtitle1">% Filled</Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                        <Typography variant="subtitle1">Spots Left</Typography>
-                        </Grid>
-                    </Grid>
-                    </ListItem>
+                    {!testData && !percentFilled &&
+                        <>
+                            {/* Column headers */}
+                            <ListItem sx={{ bgcolor: 'black', color: 'white' }}>
+                            <ListItemIcon style={iconContainerStyle}> {/* Adjust icon container width as needed */}
+                                {/* Placeholder for icon column */}
+                            </ListItemIcon>
+                            <Grid container spacing={2}>
+                                <Grid item xs={4} sx={{ mr: -1 }}> {/* Adjust the negative margin as needed */}
+                                    <Typography variant="subtitle1" sx={{ ml: -3 }}>Lot Name</Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                <Typography variant="subtitle1">% Filled</Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                <Typography variant="subtitle1">Spots Left</Typography>
+                                </Grid>
+                            </Grid>
+                            </ListItem>
+                        </>
+                    }
                     
                     {(testData && percentFilled) ?
                         <ListItem sx={{ bgcolor: 'black', color: 'white' }}>
                             <ListItemIcon>
                             </ListItemIcon>
                             <Grid container spacing={2}>
-                            <Grid item xs={4}>
-                                <Typography variant="subtitle1">Lot 1</Typography>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                                {percentFilled}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Typography variant="subtitle1">{testData.stats.totalSpaces}</Typography>
-                            </Grid>
+                                <Grid item xs={4}>
+                                    <Typography variant="subtitle1">Lot 1A ({percentFilled})</Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                                    {percentFilled}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Typography variant="subtitle1">{testData.stats.totalSpaces - testData.stats.occupiedSpaces}</Typography>
+                                </Grid>
                             </Grid>
                         </ListItem> :
                     <Stack width={'100%'} spacing={2}>
@@ -267,19 +271,10 @@ export default function Home() {
                     </Stack>}
                 </List>
 
-                {/* Add complaint button */}
-                <Box sx={{ 
-                    left: 0, 
-                    right: 0, 
-                    bottom: 0, 
-                    zIndex: 1100, // Ensure it's above other elements; 1100 is the default AppBar z-index
-                    p: 3,
-                }}>
-                    <Button variant="contained" color="primary" fullWidth startIcon={<AddIcon />}
-                    >
-                    Add complaint
-                    </Button>
-                </Box>
+                <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }} startIcon={<AddIcon />}
+                >
+                Add complaint
+                </Button>
 
                 {/* Bottom Navigation */}
                 <BottomNavigation value={value} onChange={handleChange} showLabels sx={{ position: 'fixed', left: 0, right: 0, bottom: 0 }}>

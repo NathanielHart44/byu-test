@@ -209,11 +209,11 @@ export default function Home() {
                                     </Grid>
                                     <Grid item xs={4}>
                                         <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                                            {testData.stats.occupiedSpaces / testData.stats.totalSpaces * 100}%
+                                            % Filled: {testData.stats.occupiedSpaces / testData.stats.totalSpaces * 100}%
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Typography variant="subtitle1">{testData.stats.totalSpaces - testData.stats.occupiedSpaces}</Typography>
+                                        <Typography variant="subtitle1">Spots Available: {testData.stats.totalSpaces - testData.stats.occupiedSpaces}</Typography>
                                     </Grid>
                                     </Grid>
                                 </ListItem>

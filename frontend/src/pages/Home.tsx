@@ -18,6 +18,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import ListItemIcon from '@mui/material/ListItemIcon'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import Grid from '@mui/material/Grid';
+import { useApiCall } from 'src/hooks/useApiCall';
 
 
 declare global {
@@ -27,8 +28,28 @@ declare global {
     }
   }
 
+  type LotData = {
+    image: string,
+    stats: {
+        occupiedSpaces: number,
+        totalSpaces: number
+    }
+  };
 
 export default function Home() {
+
+    const { apiCall } = useApiCall();
+
+
+    const [testData, setTestData] = useState<LotData>();
+    const [percentFilled, setPercentFilled] = useState<number>();
+
+    apiCall('test_image_processing', 'GET', null, (data) => {
+        console.log(data);
+        setTestData(data);
+        setPercentFilled(data.stats.occupiedSpaces / data.stats.totalSpaces);
+    });
+
     const parkingLots = [
         { name: "Lot 1A - Staff", percentFilled: "53%", spotsAvailable: 20, color: "orange" },
         { name: "Lot 1A", percentFilled: "100%", spotsAvailable: 0, color: "red" }
@@ -146,7 +167,7 @@ export default function Home() {
           </ListItemIcon>
           <Grid container spacing={2}>
             <Grid item xs={4} sx={{ mr: -1 }}> {/* Adjust the negative margin as needed */}
-                <Typography variant="subtitle1" sx={{ ml: -3 }}>Lot Name</Typography> {/* Apply negative margin here */}
+                <Typography variant="subtitle1" sx={{ ml: -3 }}>Lot Name</Typography>
             </Grid>
             <Grid item xs={4}>
               <Typography variant="subtitle1">% Filled</Typography>
@@ -157,26 +178,47 @@ export default function Home() {
           </Grid>
         </ListItem>
         
-        {parkingLots.map((lot, index) => (
-          <ListItem key={index} sx={{ bgcolor: 'black', color: 'white' }}>
-            <ListItemIcon>
-              <FiberManualRecordIcon style={{ color: getStatusColor(lot.color) }} />
-            </ListItemIcon>
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <Typography variant="subtitle1">{lot.name}</Typography>
-              </Grid>
-              <Grid item xs={4}>
-                <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                  {lot.percentFilled}
-                </Typography>
-              </Grid>
-              <Grid item xs={4}>
-                <Typography variant="subtitle1">{lot.spotsAvailable}</Typography>
-              </Grid>
-            </Grid>
-          </ListItem>
-        ))}
+        {(testData && percentFilled) ?
+            <ListItem sx={{ bgcolor: 'black', color: 'white' }}>
+                <ListItemIcon>
+                <FiberManualRecordIcon style={{ color: getStatusColor(percentFilled < 0.5 ? "green" : percentFilled < 0.8 ? "orange" : "red") }} />
+                </ListItemIcon>
+                <Grid container spacing={2}>
+                <Grid item xs={4}>
+                    <Typography variant="subtitle1">Lot 1</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                    <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                    {percentFilled}
+                    </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                    <Typography variant="subtitle1">{testData.stats.totalSpaces}</Typography>
+                </Grid>
+                </Grid>
+            </ListItem> :
+        <>
+            {parkingLots.map((lot, index) => (
+                <ListItem key={index} sx={{ bgcolor: 'black', color: 'white' }}>
+                    <ListItemIcon>
+                    <FiberManualRecordIcon style={{ color: getStatusColor(lot.color) }} />
+                    </ListItemIcon>
+                    <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                        <Typography variant="subtitle1">{lot.name}</Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                        {lot.percentFilled}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Typography variant="subtitle1">{lot.spotsAvailable}</Typography>
+                    </Grid>
+                    </Grid>
+                </ListItem>
+            ))}
+        </>}
       </List>
 
 

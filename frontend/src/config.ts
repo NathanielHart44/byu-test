@@ -7,7 +7,8 @@ import { PATH_PAGE } from './routes/paths';
 export const HOST_API = '';
 
 export const MAIN_API = {
-  base_url: "http://localhost:8080/",
+  // base_url: "http://localhost:8080/",
+  base_url: "https://byuparking.django.nftyarcade.io/",
 };
 
 // ROOT PATH AFTER LOGIN SUCCESSFUL

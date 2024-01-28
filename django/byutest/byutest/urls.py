@@ -13,6 +13,8 @@ from byutest.views import main as views
 urlpatterns = [
 
     path('admin/', admin.site.urls),
+    path('parking_lot_stats/', views.parking_lot_stats),
+    path('test_image_processing/', views.test_image_processing),
 
     # ----------------------------------------------------------------------
 

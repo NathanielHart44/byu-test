@@ -1,3 +1,5 @@
+import random
+from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -6,6 +8,7 @@ from django.utils import timezone
 from rest_framework import status
 from django.db import transaction
 import logging
+from byutest.views import video_feed
 
 # ----------------------------------------------------------------------
 
@@ -85,3 +88,27 @@ def get_jwt_token(request):
             {"detail": "An error occured. Please try again later."},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+    
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def parking_lot_stats(request):
+    """
+    API endpoint to fetch the latest parking lot statistics.
+    """
+    stats = video_feed.get_latest_stats()
+    return Response(stats)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def test_image_processing(request):
+    """
+    API endpoint to fetch the latest parking lot statistics.
+    """
+    ### Using test images for now, will need to hook up to live video feed and use screenshots of lots
+    test_images = ['byutest/data/test_lot1.jpg', 'byutest/data/test_lot2.jpg', 'byutest/data/test_lot3.jpg']
+    image_index = random.randint(0, len(test_images) - 1)
+    video_feed.test_image(test_images[image_index])
+    stats = video_feed.get_latest_stats()
+    response = {'stats': stats, 'image': test_images[image_index]}
+    return JsonResponse(response)

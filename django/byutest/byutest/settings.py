@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     'rest_framework',
     'rest_framework.authtoken',
-    'byutest.apps.CoreConfig'
+    'byutest.apps.BYUTestConfig'
 ]
 
 MIDDLEWARE = [
@@ -82,11 +82,12 @@ SIMPLE_JWT = {
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
-CORS_ALLOWED_ORIGINS = [
-     env('BASE_URL') + ':8080',
-     env('BASE_URL') + ':3000',
-     env('BASE_URL'),
-]
+#CORS_ALLOWED_ORIGINS = [
+#     env('BASE_URL') + ':8080',
+#     env('BASE_URL') + ':3000',
+#     env('BASE_URL'),
+#]
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'byutest.urls'
 

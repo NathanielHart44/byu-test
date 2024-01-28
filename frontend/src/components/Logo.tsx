@@ -18,9 +18,6 @@ export default function Logo() {
 
     return (
         <Stack direction={'row'} alignItems={'center'} onClick={() => { navigate(path) }} sx={{ cursor: 'pointer' }}>
-            <Box sx={{ maxHeight: '100%', maxWidth: '60px' }}>
-                <img src="/icons/throne.png" alt="ASOIAF Logo" loading="lazy" />
-            </Box>
             <Typography variant="h6" component="div" fontFamily={'Metamorphous'} sx={{ flexGrow: 1, whiteSpace: 'nowrap' }}>
                 BYU Parking Solution
             </Typography>

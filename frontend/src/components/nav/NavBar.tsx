@@ -10,24 +10,28 @@ import { NAVBAR } from 'src/config';
 // ----------------------------------------------------------------------
 
 export default function NavBar() {
-
     const theme = useTheme();
 
     return (
-        // <HideOnScroll>
-            <AppBar
-                sx={{
-                    height: NAVBAR.BASE_HEIGHT,
-                    backgroundColor: theme.palette.grey.default_canvas,
-                }}
+        <AppBar
+            sx={{
+                height: NAVBAR.BASE_HEIGHT,
+                backgroundColor: '#202030',
+            }}
+        >
+            <Toolbar 
+              disableGutters={false}
+              sx={{ 
+                justifyContent: 'space-between', 
+                px: theme.spacing(2)
+              }}
             >
-                <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
-                    <Logo />
-                </Toolbar>
-            </AppBar>
-        // </HideOnScroll>
-    )
+                <Logo />
+            </Toolbar>
+        </AppBar>
+    );
 };
+
 
 // ----------------------------------------------------------------------
 

@@ -19,6 +19,8 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import Grid from '@mui/material/Grid';
 import { useApiCall } from 'src/hooks/useApiCall';
+import BYUAccordion from 'src/components/BYUAccordion';
+import { Container, Stack, keyframes, useTheme } from '@mui/material';
 
 
 declare global {
@@ -44,11 +46,13 @@ export default function Home() {
     const [testData, setTestData] = useState<LotData>();
     const [percentFilled, setPercentFilled] = useState<number>();
 
-    apiCall('test_image_processing', 'GET', null, (data) => {
-        console.log(data);
-        setTestData(data);
-        setPercentFilled(data.stats.occupiedSpaces / data.stats.totalSpaces);
-    });
+    useEffect(() => {
+        apiCall('test_image_processing', 'GET', null, (data) => {
+            console.log(data);
+            setTestData(data);
+            setPercentFilled(data.stats.occupiedSpaces / data.stats.totalSpaces);
+        });
+    }, []);
 
     const parkingLots = [
         { name: "Lot 1A - Staff", percentFilled: "53%", spotsAvailable: 20, color: "orange" },
@@ -132,6 +136,18 @@ export default function Home() {
 
     const iconContainerStyle = { minWidth: '15px' };
 
+    const ripple = (
+        keyframes`
+        0% {
+            transform: scale(.9);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1.1);
+            opacity: 0.7;
+        }`
+    );
+
     return (
         <Box sx={{ pb: 5, bgcolor: '#202030' }}>
             <AppBar position="static">
@@ -142,105 +158,135 @@ export default function Home() {
                 </Toolbar>
             </AppBar>
 
+        <Container maxWidth="md" sx={{ mt: 2 }}>
               {/* Map container */}
-              <Box sx={{ height: 400, width: '100%' }}>
+              <Box sx={{ height: 400, width: '100%', borderRadius: '10px', position: 'relative', overflow: 'hidden' }}>
                 <div id="map" style={{ height: '100%', width: '100%' }} />
             </Box>
 
             {/* List of parking lots */}
-    <List sx={{ width: '100%', bgcolor: '#202030' }}>
-        <ListItem sx={{ bgcolor: '#202030' }}>
-          <ListItemText
-            primary={
-              <Typography variant="h6" style={{ color: 'white' }}>
-                Top Available Lots
-              </Typography>
-            }
-          />
-        </ListItem>
-        <Divider component="li" />
-        
-        {/* Column headers */}
-        <ListItem sx={{ bgcolor: 'black', color: 'white' }}>
-          <ListItemIcon style={iconContainerStyle}> {/* Adjust icon container width as needed */}
-            {/* Placeholder for icon column */}
-          </ListItemIcon>
-          <Grid container spacing={2}>
-            <Grid item xs={4} sx={{ mr: -1 }}> {/* Adjust the negative margin as needed */}
-                <Typography variant="subtitle1" sx={{ ml: -3 }}>Lot Name</Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography variant="subtitle1">% Filled</Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography variant="subtitle1">Spots Left</Typography>
-            </Grid>
-          </Grid>
-        </ListItem>
-        
-        {(testData && percentFilled) ?
-            <ListItem sx={{ bgcolor: 'black', color: 'white' }}>
-                <ListItemIcon>
-                <FiberManualRecordIcon style={{ color: getStatusColor(percentFilled < 0.5 ? "green" : percentFilled < 0.8 ? "orange" : "red") }} />
-                </ListItemIcon>
-                <Grid container spacing={2}>
-                <Grid item xs={4}>
-                    <Typography variant="subtitle1">Lot 1</Typography>
-                </Grid>
-                <Grid item xs={4}>
-                    <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                    {percentFilled}
-                    </Typography>
-                </Grid>
-                <Grid item xs={4}>
-                    <Typography variant="subtitle1">{testData.stats.totalSpaces}</Typography>
-                </Grid>
-                </Grid>
-            </ListItem> :
-        <>
-            {parkingLots.map((lot, index) => (
-                <ListItem key={index} sx={{ bgcolor: 'black', color: 'white' }}>
-                    <ListItemIcon>
-                    <FiberManualRecordIcon style={{ color: getStatusColor(lot.color) }} />
+
+                <List sx={{ width: '100%', bgcolor: '#202030' }}>
+                    <ListItem sx={{ bgcolor: '#202030' }}>
+                    <ListItemText
+                        primary={
+                        <Typography variant="h6" style={{ color: 'white' }}>
+                            Top Available Lots
+                        </Typography>
+                        }
+                    />
+                    </ListItem>
+                    <Divider component="li" />
+                    
+                    {/* Column headers */}
+                    <ListItem sx={{ bgcolor: 'black', color: 'white' }}>
+                    <ListItemIcon style={iconContainerStyle}> {/* Adjust icon container width as needed */}
+                        {/* Placeholder for icon column */}
                     </ListItemIcon>
                     <Grid container spacing={2}>
-                    <Grid item xs={4}>
-                        <Typography variant="subtitle1">{lot.name}</Typography>
+                        <Grid item xs={4} sx={{ mr: -1 }}> {/* Adjust the negative margin as needed */}
+                            <Typography variant="subtitle1" sx={{ ml: -3 }}>Lot Name</Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                        <Typography variant="subtitle1">% Filled</Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                        <Typography variant="subtitle1">Spots Left</Typography>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={4}>
-                        <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                        {lot.percentFilled}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Typography variant="subtitle1">{lot.spotsAvailable}</Typography>
-                    </Grid>
-                    </Grid>
-                </ListItem>
-            ))}
-        </>}
-      </List>
+                    </ListItem>
+                    
+                    {(testData && percentFilled) ?
+                        <ListItem sx={{ bgcolor: 'black', color: 'white' }}>
+                            <ListItemIcon>
+                            </ListItemIcon>
+                            <Grid container spacing={2}>
+                            <Grid item xs={4}>
+                                <Typography variant="subtitle1">Lot 1</Typography>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                                {percentFilled}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Typography variant="subtitle1">{testData.stats.totalSpaces}</Typography>
+                            </Grid>
+                            </Grid>
+                        </ListItem> :
+                    <Stack width={'100%'} spacing={2}>
+                        {parkingLots.map((lot, index) => (
+                            <BYUAccordion
+                                key={index}
+                                title={lot.name}
+                                icon={
+                                    <Stack
+                                        justifyContent={'center'}
+                                        alignItems={'center'}
+                                        sx={{
+                                            pr: 1,
+                                            pt: 0.9,
+                                            animation: `${ripple} 0.85s infinite alternate ease-in-out`,
+                                            zIndex: 999,
+                                        }}
+                                    >
+                                        <div
+                                            style={{
+                                                backgroundColor: getStatusColor(lot.spotsAvailable >= 0.9 ? "red" : lot.spotsAvailable >= 0.75 ? "orange" : "green"),
+                                                borderRadius: '50%',
+                                                width: '10px',
+                                                height: '10px',
+                                                justifyContent: 'center',
+                                                alignItems: 'center'
+                                            }}
+                                        />
+                                    </Stack>
+                                }
+                                table_body={
+                                    <ListItem sx={{ bgcolor: 'black', color: 'white' }}>
+                                        <ListItemIcon>
+                                        <FiberManualRecordIcon style={{ color: getStatusColor(lot.color) }} />
+                                        </ListItemIcon>
+                                        <Grid container spacing={2}>
+                                        <Grid item xs={4}>
+                                            <Typography variant="subtitle1">{lot.name}</Typography>
+                                        </Grid>
+                                        <Grid item xs={4}>
+                                            <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                                            {lot.percentFilled}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item xs={4}>
+                                            <Typography variant="subtitle1">{lot.spotsAvailable}</Typography>
+                                        </Grid>
+                                        </Grid>
+                                    </ListItem>
+                                }
+                            />
+                        ))}
+                    </Stack>}
+                </List>
 
+                {/* Add complaint button */}
+                <Box sx={{ 
+                    left: 0, 
+                    right: 0, 
+                    bottom: 0, 
+                    zIndex: 1100, // Ensure it's above other elements; 1100 is the default AppBar z-index
+                    p: 3,
+                }}>
+                    <Button variant="contained" color="primary" fullWidth startIcon={<AddIcon />}
+                    >
+                    Add complaint
+                    </Button>
+                </Box>
 
-            {/* Add complaint button */}
-            <Box sx={{ 
-                left: 0, 
-                right: 0, 
-                bottom: 0, 
-                zIndex: 1100, // Ensure it's above other elements; 1100 is the default AppBar z-index
-                p: 3,
-            }}>
-                <Button variant="contained" color="primary" fullWidth startIcon={<AddIcon />}
-                >
-                Add complaint
-                </Button>
-            </Box>
-
-            {/* Bottom Navigation */}
-            <BottomNavigation value={value} onChange={handleChange} showLabels sx={{ position: 'fixed', left: 0, right: 0, bottom: 0 }}>
-                <BottomNavigationAction label="Home" value="home" icon={<HomeIcon />} />
-                {/* Add other navigation items if necessary */}
-            </BottomNavigation>
+                {/* Bottom Navigation */}
+                <BottomNavigation value={value} onChange={handleChange} showLabels sx={{ position: 'fixed', left: 0, right: 0, bottom: 0 }}>
+                    <BottomNavigationAction label="Home" value="home" icon={<HomeIcon />} />
+                    {/* Add other navigation items if necessary */}
+                </BottomNavigation>
+            </Container>
         </Box>
     );
 }

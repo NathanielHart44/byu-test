@@ -12,9 +12,10 @@ import AccordionSummaryDiv from "./AccordionSummaryDiv";
 type WorkbenchAccordionContainerType = {
     title: string;
     table_body: ReactNode | undefined;
+    icon: JSX.Element | undefined;
 };
 
-export default function BYUAccordion({ title, table_body }: WorkbenchAccordionContainerType) {
+export default function BYUAccordion({ title, table_body, icon }: WorkbenchAccordionContainerType) {
 
     const theme = useTheme();
     const label_color = theme.palette.text.secondary;
@@ -37,7 +38,12 @@ export default function BYUAccordion({ title, table_body }: WorkbenchAccordionCo
                 sx={{ ...(accordionOpen && { bgcolor: 'transparent' }) }}
                 TransitionProps={{ unmountOnExit: true }}
             >
-                <AccordionSummaryDiv accordionOpen={accordionOpen} setAccordionOpen={setAccordionOpen} title={title} />
+                <AccordionSummaryDiv
+                    accordionOpen={accordionOpen}
+                    setAccordionOpen={setAccordionOpen}
+                    title={title}
+                    icon={icon}
+                />
                 <AccordionDetails sx={{ pt: 3 }}>
                     {table_body}
                 </AccordionDetails>

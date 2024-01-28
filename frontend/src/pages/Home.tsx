@@ -173,55 +173,52 @@ export default function Home() {
                     
                     {(testData && percentFilled) &&
                     <Stack width={'100%'} spacing={2}>
-                        {[testData].map((lot, index) => (
-                            <BYUAccordion
-                                key={index}
-                                title={'Lot 1A'}
-                                icon={
-                                    <Stack
-                                        justifyContent={'center'}
-                                        alignItems={'center'}
-                                        sx={{
-                                            pr: 1,
-                                            pt: 0.9,
-                                            animation: `${ripple} 0.85s infinite alternate ease-in-out`,
-                                            zIndex: 999,
+                        <BYUAccordion
+                            title={'Lot 1A'}
+                            icon={
+                                <Stack
+                                    justifyContent={'center'}
+                                    alignItems={'center'}
+                                    sx={{
+                                        pr: 1,
+                                        pt: 0.9,
+                                        animation: `${ripple} 0.85s infinite alternate ease-in-out`,
+                                        zIndex: 999,
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            backgroundColor: getStatusColor(testData.stats.totalSpaces - testData.stats.occupiedSpaces >= 0.9 ? "red" : testData.stats.totalSpaces - testData.stats.occupiedSpaces >= 0.75 ? "orange" : "green"),
+                                            borderRadius: '50%',
+                                            width: '10px',
+                                            height: '10px',
+                                            justifyContent: 'center',
+                                            alignItems: 'center'
                                         }}
-                                    >
-                                        <div
-                                            style={{
-                                                backgroundColor: getStatusColor(lot.stats.totalSpaces - lot.stats.occupiedSpaces >= 0.9 ? "red" : lot.stats.totalSpaces - lot.stats.occupiedSpaces >= 0.75 ? "orange" : "green"),
-                                                borderRadius: '50%',
-                                                width: '10px',
-                                                height: '10px',
-                                                justifyContent: 'center',
-                                                alignItems: 'center'
-                                            }}
-                                        />
-                                    </Stack>
-                                }
-                                table_body={
-                                    <ListItem sx={{ bgcolor: 'black', color: 'white' }}>
-                                        <ListItemIcon>
-                                        <FiberManualRecordIcon style={{ color: getStatusColor(lot.stats.totalSpaces - lot.stats.occupiedSpaces >= 0.9 ? "red" : lot.stats.totalSpaces - lot.stats.occupiedSpaces >= 0.75 ? "orange" : "green") }} />
-                                        </ListItemIcon>
-                                        <Grid container spacing={2}>
-                                        <Grid item xs={4}>
-                                            <Typography variant="subtitle1">Lot 1A</Typography>
-                                        </Grid>
-                                        <Grid item xs={4}>
-                                            <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                                                {lot.stats.occupiedSpaces / lot.stats.totalSpaces * 100}%
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={4}>
-                                            <Typography variant="subtitle1">{lot.stats.totalSpaces - lot.stats.occupiedSpaces}</Typography>
-                                        </Grid>
-                                        </Grid>
-                                    </ListItem>
-                                }
-                            />
-                        ))}
+                                    />
+                                </Stack>
+                            }
+                            table_body={
+                                <ListItem sx={{ bgcolor: 'black', color: 'white' }}>
+                                    <ListItemIcon>
+                                    <FiberManualRecordIcon style={{ color: getStatusColor(testData.stats.totalSpaces - testData.stats.occupiedSpaces >= 0.9 ? "red" : testData.stats.totalSpaces - testData.stats.occupiedSpaces >= 0.75 ? "orange" : "green") }} />
+                                    </ListItemIcon>
+                                    <Grid container spacing={2}>
+                                    <Grid item xs={4}>
+                                        <Typography variant="subtitle1">Lot 1A</Typography>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                                            {testData.stats.occupiedSpaces / testData.stats.totalSpaces * 100}%
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <Typography variant="subtitle1">{testData.stats.totalSpaces - testData.stats.occupiedSpaces}</Typography>
+                                    </Grid>
+                                    </Grid>
+                                </ListItem>
+                            }
+                        />
                     </Stack>}
                 </List>
 

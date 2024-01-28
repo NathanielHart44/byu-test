@@ -209,7 +209,7 @@ export default function Home() {
                                     </Grid>
                                     <Grid item xs={4}>
                                         <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
-                                            % Filled: {testData.stats.occupiedSpaces / testData.stats.totalSpaces * 100}%
+                                            Percent Filled: {testData.stats.occupiedSpaces / testData.stats.totalSpaces * 100}%
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={4}>
